@@ -639,7 +639,7 @@ namespace RainMeadow
 
         private void ProcessManager_RequestMainProcessSwitch_ProcessID(On.ProcessManager.orig_RequestMainProcessSwitch_ProcessID orig, ProcessManager self, ProcessManager.ProcessID ID)
         {
-            if (OnlineManager.lobby?.gameMode is OnlineGameMode gameMode and not MeadowGameMode)
+            if (OnlineManager.lobby?.gameMode is OnlineGameMode gameMode and not MeadowGameMode && self.currentMainLoop != null)
             {
                 // todo figure out a better way to do this proccess redirection, this isn't ideal
                 if (ID == ProcessManager.ProcessID.MainMenu || ID == ProcessManager.ProcessID.MultiplayerMenu || ID == ProcessManager.ProcessID.SlugcatSelect)
