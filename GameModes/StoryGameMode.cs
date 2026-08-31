@@ -53,7 +53,7 @@ namespace RainMeadow
         public float maximumRippleLevel;
         public List<int> spinningTopEncounters = new();
 
-        public List<AbstractCreature> pups;
+        public List<AbstractCreature> pups = new();
 
         public StoryLobbyData.MenuSaveStateState? menuSaveState;
         public SlugcatSelectMenu.SaveGameData? menuSaveGameData;
