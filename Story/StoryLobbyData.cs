@@ -154,7 +154,7 @@ namespace RainMeadow
                 story.maximumRippleLevel = maximumRippleLevel;
                 story.spinningTopEncounters = new(spinningTopEncounters);
 
-                if (currentGameState is not null)
+                if (currentGameState is not null && isInGame)
                 {
                     for (int i = 0; i < currentGameState.StoryPlayerCount; i++)
                     {
@@ -187,9 +187,22 @@ namespace RainMeadow
 
                 if (currentGameState?.session is StoryGameSession storySession)
                 {
-                    storySession.saveState.cycleNumber = cycleNumber;
-                    storySession.saveState.deathPersistentSaveData.karma = karma;
-                    storySession.saveState.deathPersistentSaveData.karmaCap = karmaCap;
+                    // while the host sits in a menu (karma ladder, story lobby) these fields hold stale defaults, applying them zeroes karma and food for everyone still in the cycle
+                    if (isInGame)
+                    {
+                        storySession.saveState.cycleNumber = cycleNumber;
+                        storySession.saveState.deathPersistentSaveData.karma = karma;
+                        storySession.saveState.deathPersistentSaveData.karmaCap = karmaCap;
+                        storySession.saveState.deathPersistentSaveData.reinforcedKarma = reinforcedKarma;
+                        storySession.saveState.theGlow = theGlow;
+                        storySession.saveState.lastMalnourished = lastMalnourished;
+                        storySession.saveState.malnourished = malnourished;
+                        for (int i = 0; i < currentGameState.StoryPlayerCount; i++)
+                        {
+                            if (currentGameState.Players[i].realizedCreature != null)
+                                (currentGameState.Players[i].realizedCreature as Player).glowing = theGlow;
+                        }
+                    }
                     storySession.saveState.deathPersistentSaveData.rippleLevel = rippleLevel;
 
                     storySession.saveState.deathPersistentSaveData.minimumRippleLevel = minimumRippleLevel;
@@ -207,15 +220,6 @@ namespace RainMeadow
                         lobby.owner.InvokeOnceRPC(StoryRPCs.AddSpinningTopEncounter, encounter);
                     }
 
-                    storySession.saveState.deathPersistentSaveData.reinforcedKarma = reinforcedKarma;
-                    storySession.saveState.theGlow = theGlow;
-                    storySession.saveState.lastMalnourished = lastMalnourished;
-                    storySession.saveState.malnourished = malnourished;
-                    for (int i = 0; i < currentGameState.StoryPlayerCount; i++)
-                    {
-                        if (currentGameState.Players[i].realizedCreature != null)
-                            (currentGameState.Players[i].realizedCreature as Player).glowing = theGlow;
-                    }
                 }
                 story.currentCampaign = currentCampaign;
 

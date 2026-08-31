@@ -77,7 +77,8 @@ namespace RainMeadow
             ID = OnlineManager.lobby.gameMode.MenuProcessId();
             storyGameMode = (StoryGameMode)OnlineManager.lobby.gameMode;
             storyGameMode.Sanitize();
-            SetCampaign(slugcatPages[slugcatPageIndex].slugcatNumber);
+            // clients take currentCampaign from the host, don't let the local page overwrite it
+            if (OnlineManager.lobby.isOwner || storyGameMode.currentCampaign == null) SetCampaign(slugcatPages[slugcatPageIndex].slugcatNumber);
             restartCheckboxPos = restartCheckbox.pos;
             if (CurrLang == InGameTranslator.LanguageID.Russian)
             {
