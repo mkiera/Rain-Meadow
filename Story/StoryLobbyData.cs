@@ -231,11 +231,12 @@ namespace RainMeadow
                 story.itemSteal = storyItemSteal;
 
 
+                story.pups.Clear();
                 foreach (OnlineEntity.EntityId pupid in pups)
                 {
                     if ((pupid.FindEntity() as OnlineCreature)?.apo is AbstractCreature apo)
                     {
-                        (lobby.gameMode as StoryGameMode).pups.Add(apo);
+                        story.pups.Add(apo);
                     }
                 }
             }
