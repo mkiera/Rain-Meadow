@@ -34,7 +34,7 @@ namespace RainMeadow
                 Debug($"Object {obj} - {(obj is PhysicalObject po ? po.abstractPhysicalObject.ID : obj)} already in the update list! Skipping...");
                 var stackTrace = Environment.StackTrace;
                 if (!stackTrace.Contains("AbstractSpaceVisualizer")) // We know about this
-                    Error(Environment.StackTrace); // Log cases that we still haven't found 
+                    Error(stackTrace); // Log cases that we still haven't found 
                 return;
             }
             orig(self, obj);
